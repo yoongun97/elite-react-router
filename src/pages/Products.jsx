@@ -2,8 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 
-export default function Products() {
+export default function Products(props) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { products } = props;
+  // props로 내려받은 상품목록
+
   return (
     <>
       <div
@@ -29,39 +32,25 @@ export default function Products() {
             gap: "24px",
           }}
         >
-          <Link to="/products/1">
-            <div
-              style={{
-                width: "200px",
-                height: "240px",
-                backgroundColor: "#068FFF",
-              }}
-            >
-              상품1
-            </div>
-          </Link>
-          <Link to="/products/2">
-            <div
-              style={{
-                width: "200px",
-                height: "240px",
-                backgroundColor: "#068FFF",
-              }}
-            >
-              상품2
-            </div>
-          </Link>
-          <Link to="/products/3">
-            <div
-              style={{
-                width: "200px",
-                height: "240px",
-                backgroundColor: "#068FFF",
-              }}
-            >
-              상품3
-            </div>
-          </Link>
+          {products.map((product) => {
+            return (
+              <>
+                <Link to={`/products/${product.id}`} key={product.id}>
+                  <div
+                    key={product.id}
+                    style={{
+                      width: "200px",
+                      height: "240px",
+                      backgroundColor: "#068FFF",
+                    }}
+                  >
+                    <p style={{ color: "white" }}>{product.name}</p>
+                    <p style={{ color: "white" }}>{product.price}</p>
+                  </div>
+                </Link>
+              </>
+            );
+          })}
         </div>
       </div>
     </>

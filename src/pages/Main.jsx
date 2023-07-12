@@ -1,9 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Main() {
+export default function Main(props) {
   const navigate = useNavigate();
   // 추가적인 코드를 짤 수 있다.
+  const { products } = props;
+  // props로 내려받은 상품목록
+
   return (
     <>
       {/* main */}
@@ -30,7 +33,7 @@ export default function Main() {
         >
           <h2
             onClick={() => {
-              alert("진짜 이동할꺼야??");
+              alert("이동하시겠습니까?");
               navigate("/products");
             }}
             style={{ cursor: "pointer" }}
@@ -46,33 +49,22 @@ export default function Main() {
               gap: "24px",
             }}
           >
-            <div
-              style={{
-                width: "200px",
-                height: "240px",
-                backgroundColor: "#068FFF",
-              }}
-            >
-              상품1
-            </div>
-            <div
-              style={{
-                width: "200px",
-                height: "240px",
-                backgroundColor: "#068FFF",
-              }}
-            >
-              상품2
-            </div>
-            <div
-              style={{
-                width: "200px",
-                height: "240px",
-                backgroundColor: "#068FFF",
-              }}
-            >
-              상품3
-            </div>
+            {products.map((product) => {
+              return (
+                <div
+                  key={product.id}
+                  style={{
+                    width: "200px",
+                    height: "240px",
+                    backgroundColor: "#068FFF",
+                  }}
+                >
+                  <p style={{ color: "white" }}>{product.name}</p>
+                  <p style={{ color: "white" }}>{product.price}</p>
+                </div>
+              );
+            })}
+            {/* map 함수로 배열을 돌며 상품들 카드 생성 */}
           </div>
         </section>
         {/* 추가적인 데이터 */}

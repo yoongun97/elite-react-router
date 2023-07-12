@@ -43,7 +43,9 @@ function Layout() {
               alert("로그인 페이지로 이동합니다.");
               navigate("/login");
             }}
+            // useNavigate로 페이지 이동
             style={{ cursor: "pointer" }}
+            // style 부여
           >
             로그인
           </div>
