@@ -7,7 +7,7 @@ export default function Product(props) {
   const { products } = props;
   // props로 내려받은 상품목록
 
-  const [selectedOption, setSelectedOption] = useState("옵션을 선택하세요."); // 선택된 옵션
+  const [selectedOption, setSelectedOption] = useState(""); // 선택된 옵션
 
   const optionChangeHandler = (event) => {
     setSelectedOption(event.target.value); // 선택된 옵션의 값 업데이트
