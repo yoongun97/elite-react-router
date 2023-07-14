@@ -1,11 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export default function Main(props) {
+export default function Main() {
   const navigate = useNavigate();
   // 추가적인 코드를 짤 수 있다.
-  const { products } = props;
-  // props로 내려받은 상품목록
+
+  const products = useSelector((state) => state.products);
 
   return (
     <>

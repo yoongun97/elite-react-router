@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { sortPrice, resetPrice } from "..";
 
-export default function Products(props) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { products } = props;
-  // props로 내려받은 상품목록
+export default function Products() {
+  const products = useSelector((state) => state.products);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -18,12 +18,17 @@ export default function Products(props) {
         <h2>🔥 여름 추천템 🔥</h2>
         <button
           onClick={() => {
-            setSearchParams({
-              sort: "price",
-            });
+            dispatch(sortPrice());
           }}
         >
           가격순정렬
+        </button>
+        <button
+          onClick={() => {
+            dispatch(resetPrice());
+          }}
+        >
+          리셋
         </button>
         <div
           style={{
@@ -34,21 +39,20 @@ export default function Products(props) {
         >
           {products.map((product) => {
             return (
-              <>
-                <Link to={`/products/${product.id}`} key={product.id}>
-                  <div
-                    key={product.id}
-                    style={{
-                      width: "200px",
-                      height: "240px",
-                      backgroundColor: "#068FFF",
-                    }}
-                  >
-                    <p style={{ color: "white" }}>{product.name}</p>
-                    <p style={{ color: "white" }}>{product.price}</p>
-                  </div>
-                </Link>
-              </>
+              <Link to={`/products/${product.id}`} key={product.id}>
+                <div
+                  key={product.id}
+                  style={{
+                    width: "200px",
+                    height: "240px",
+                    backgroundColor: "#068FFF",
+                    color: "white",
+                  }}
+                >
+                  <p>{product.name}</p>
+                  <p>{product.price}</p>
+                </div>
+              </Link>
             );
           })}
         </div>

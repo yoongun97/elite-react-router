@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export default function Product(props) {
+export default function Product() {
   const { id } = useParams();
   // url의 product의 id 가져오기
-  const { products } = props;
-  // props로 내려받은 상품목록
+  const products = useSelector((state) => state.products);
 
   const [selectedOption, setSelectedOption] = useState(""); // 선택된 옵션
 
