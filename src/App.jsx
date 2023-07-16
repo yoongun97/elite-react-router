@@ -6,6 +6,7 @@ import Layout from "./common/Layout";
 import { Link } from "react-router-dom";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         {/* URL Parameter */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/cart" element={<Cart />} />
         {/* Route 추가 */}
         <Route
           path="*"

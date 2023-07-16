@@ -58,6 +58,15 @@ function Layout() {
           >
             회원가입
           </div>
+          <div
+            onClick={() => {
+              alert("장바구니로 이동합니다.");
+              navigate("/cart");
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            장바구니
+          </div>
         </div>
       </header>
       <Outlet />

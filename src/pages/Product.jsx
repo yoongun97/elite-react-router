@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/modules/CartProducts";
 
 export default function Product() {
   const { id } = useParams();
@@ -8,6 +9,7 @@ export default function Product() {
   const products = useSelector((state) => state.products);
 
   const [selectedOption, setSelectedOption] = useState(""); // 선택된 옵션
+  const dispatch = useDispatch();
 
   const optionChangeHandler = (event) => {
     setSelectedOption(event.target.value); // 선택된 옵션의 값 업데이트
@@ -66,6 +68,13 @@ export default function Product() {
                     </select>
                     <p>구매옵션 : {selectedOption}</p>
                     {/* 선택된 옵션 */}
+                    <button
+                      onClick={() => {
+                        dispatch(addToCart(product));
+                      }}
+                    >
+                      장바구니 추가하기
+                    </button>
                   </div>
                 </>
               );

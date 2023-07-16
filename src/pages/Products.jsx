@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { sortPrice, resetPrice } from "..";
+import { sortPrice, resetPrice } from "../redux/modules/ProductsSlice";
 
 export default function Products() {
   const products = useSelector((state) => state.products);
