@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/modules/CartProducts";
+import {
+  addToCart,
+  setProductDetails,
+  updateQuantity,
+} from "../redux/modules/CartProducts";
 
 export default function Product() {
   const { id } = useParams();
@@ -9,10 +13,23 @@ export default function Product() {
   const products = useSelector((state) => state.products);
 
   const [selectedOption, setSelectedOption] = useState(""); // 선택된 옵션
+  const [showQuantity, setShowQuantity] = useState(false); // 갯수 항목 보여주기 여부
+  const [quantity, setQuantity] = useState(0); // 선택된 갯수
   const dispatch = useDispatch();
 
   const optionChangeHandler = (event) => {
     setSelectedOption(event.target.value); // 선택된 옵션의 값 업데이트
+    setShowQuantity(true); // 갯수 항목 보여주기 설정
+  };
+
+  const quantityPlusHandler = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1); // 갯수 증가
+    dispatch(updateQuantity({ productId: id, quantity: 1 })); // 상태 업데이트 액션 디스패치
+  };
+
+  const quantityMinusHandler = () => {
+    setQuantity((prevQuantity) => (prevQuantity > 0 ? prevQuantity - 1 : 0)); // 갯수 감소 (0보다 작아지지 않도록)
+    dispatch(updateQuantity({ productId: id, quantity: -1 })); // 상태 업데이트 액션 디스패치
   };
 
   return (
@@ -28,9 +45,7 @@ export default function Product() {
           }}
         >
           {products
-            .filter((product) => {
-              return product.id == id;
-            })
+            .filter((product) => product.id == id)
             // url에 들어있는 id와 같은 id의 상품 필터링
             .map((product) => {
               return (
@@ -66,15 +81,44 @@ export default function Product() {
                       })}
                       {/* product의 옵션들 보여주기 */}
                     </select>
-                    <p>구매옵션 : {selectedOption}</p>
-                    {/* 선택된 옵션 */}
-                    <button
-                      onClick={() => {
-                        dispatch(addToCart(product));
-                      }}
-                    >
-                      장바구니 추가하기
-                    </button>
+                    {showQuantity && (
+                      <div>
+                        <p style={{ margin: 0 }}>구매옵션 : {selectedOption}</p>
+                        <span style={{ margin: 0, marginRight: "5px" }}>
+                          개수 : {quantity}
+                        </span>
+                        <button onClick={quantityPlusHandler}>+</button>
+                        <button onClick={quantityMinusHandler}>-</button>
+                        <p style={{ margin: 0 }}>
+                          총 금액 : {product.price * quantity}
+                        </p>
+
+                        <button
+                          onClick={() => {
+                            if (selectedOption === "" || quantity === 0) {
+                              alert("옵션을 선택해주세요");
+                            } else {
+                              dispatch(
+                                addToCart({
+                                  ...product,
+                                  selectedOption, // 선택된 옵션 추가
+                                  quantity, // 상품 갯수 추가
+                                })
+                              );
+                              dispatch(
+                                setProductDetails({
+                                  option: selectedOption,
+                                  quantity,
+                                })
+                              );
+                              alert("장바구니에 추가되었습니다.");
+                            }
+                          }}
+                        >
+                          장바구니 추가하기
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </>
               );
